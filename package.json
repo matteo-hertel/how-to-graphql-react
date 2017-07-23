@@ -1,0 +1,8 @@
+{
+  "name": "how-to-graphql-react",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:matteo-hertel/how-to-graphql-react.git",
+  "author": "Matteo Hertel <info@matteohertel.com>",
+  "license": "MIT"
+}
