@@ -9,7 +9,7 @@ class Link extends Component {
       </div>
     )
   }
-  
+
   _voteForLink = async () => {
   }
 
