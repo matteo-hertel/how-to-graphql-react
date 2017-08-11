@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import config from './../config.js';
-const { GC_USER_ID, GC_AUTH_TOKEN } = config;
 import { gql, graphql, compose } from 'react-apollo'
+const { GC_USER_ID, GC_AUTH_TOKEN } = config;
 
 class Login extends Component {
 
