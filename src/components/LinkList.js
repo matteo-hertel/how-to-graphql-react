@@ -18,8 +18,8 @@ class LinkList extends Component {
 
     return (
       <div>
-        {linksToRender.map(link => (
-          <Link key={link.id} link={link} />
+        {linksToRender.map((link, index) => (
+          <Link key={link.id} index={index} link={link} />
         ))}
       </div>
     )
@@ -34,6 +34,16 @@ const ALL_LINKS_QUERY = gql`
       createdAt
       url
       description
+      postedBy {
+        id
+        name
+      }
+      votes {
+        id
+        user {
+          id
+        }
+      }
     }
   }
 `
