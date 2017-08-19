@@ -32,6 +32,97 @@ class LinkList extends Component {
     store.writeQuery({ query: ALL_LINKS_QUERY, data })
   }
 
+  componentDidMount() {
+    this._subscribeToNewLinks()
+    this._subscribeToNewVotes()
+  }
+
+  _subscribeToNewVotes = () => {
+    this.props.allLinksQuery.subscribeToMore({
+      document: gql`
+      subscription {
+        Vote(filter: {
+          mutation_in: [CREATED]
+        }) {
+          node {
+            id
+            link {
+              id
+              url
+              description
+              createdAt
+              postedBy {
+                id
+                name
+              }
+              votes {
+                id
+                user {
+                  id
+                }
+              }
+            }
+            user {
+              id
+            }
+          }
+        }
+      }
+    `,
+      updateQuery: (previous, { subscriptionData }) => {
+        const votedLinkIndex = previous.allLinks.findIndex(link => link.id === subscriptionData.data.Vote.node.link.id)
+        const link = subscriptionData.data.Vote.node.link
+        const newAllLinks = previous.allLinks.slice()
+        newAllLinks[votedLinkIndex] = link
+        const result = {
+          ...previous,
+          allLinks: newAllLinks
+        }
+        return result
+      }
+    })
+  }
+
+  _subscribeToNewLinks = () => {
+    this.props.allLinksQuery.subscribeToMore({
+      document: gql`
+      subscription {
+        Link(filter: {
+          mutation_in: [CREATED]
+        }) {
+          node {
+            id
+            url
+            description
+            createdAt
+            postedBy {
+              id
+              name
+            }
+            votes {
+              id
+              user {
+                id
+              }
+            }
+          }
+        }
+      }
+    `,
+      updateQuery: (previous, { subscriptionData }) => {
+        const newAllLinks = [
+          subscriptionData.data.Link.node,
+          ...previous.allLinks
+        ]
+        const result = {
+          ...previous,
+          allLinks: newAllLinks
+        }
+        return result
+      }
+    })
+  }
+
 }
 
 export const ALL_LINKS_QUERY = gql`
