@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import config from './../config.js';
-import { gql, graphql, compose } from 'react-apollo'
+import { gql, graphql } from 'react-apollo'
 import { ALL_LINKS_QUERY } from './LinkList'
 
 const { GC_USER_ID, LINKS_PER_PAGE } = config;
